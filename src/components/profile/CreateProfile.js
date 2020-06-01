@@ -362,7 +362,7 @@ function CreateProfile(props) {
                       id="pPic"
                       onChange={onImageChange}
                       style={{ whiteSpace: "normal", wordWrap: "break-word" }}
-                      accept="image/*"
+                      accept="image/x-jpeg,image/x-jpg"
                       className={classes.input}
                       multiple
                       type="file"
@@ -523,7 +523,7 @@ function CreateProfile(props) {
                         id="front"
                         onChange={frontView}
                         style={{ whiteSpace: "normal", wordWrap: "break-word" }}
-                        accept="image/*"
+                        accept="image/x-jpeg,image/x-jpg"
                         className={classes.input}
                         multiple
                         type="file"
@@ -576,7 +576,7 @@ function CreateProfile(props) {
                         id="back"
                         onChange={backView}
                         style={{ whiteSpace: "normal", wordWrap: "break-word" }}
-                        accept="image/*"
+                        accept="image/x-jpeg,image/x-jpg"
                         className={classes.input}
                         multiple
                         type="file"

@@ -11,13 +11,29 @@ import {
   Paper,
   Container,
   Grid,
+  Switch,
+  FormControlLabel,
+  Fade
 } from "@material-ui/core";
 
 function HomePage(props) {
   const { contact } = props;
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
   return (
-    <div style={{ width: "75%", margin: "auto", marginTop: "10px" }}>
-      <Paper elevation={0}>
+
+      <div>
+      <FormControlLabel
+        control={<Switch checked={checked} onChange={handleChange} />}
+        label="Show"
+      />
+      
+      <div style={{ width: "75%", margin: "auto", marginTop: "10px" }}>
+        <Paper elevation={0}>
+        <Fade in={checked}>
         <Card
           align="center"
           elevation={0}
@@ -47,33 +63,9 @@ function HomePage(props) {
             </Typography>
           </Container>
         </Card>
-        <Card>
-          <CardContent>
-            {contact &&
-              contact.map((items) => {
-                return (
-                  <div key="anc" style={{ backgroundColor: "#f5f5f5" }}>
-                    <Typography
-                      variant="h4"
-                      style={{
-                        backgroundColor: "#3949ab",
-                        color: "white",
-                        paddingLeft: "5px",
-                      }}
-                    >
-                      Announcement
-                    </Typography>
-                    <div style={{ paddingLeft: "10px" }}>
-                      <Typography variant="h6">Message:{items.msg}</Typography>
-                      <Typography variant="body1">
-                        Date:{moment(items.date.toDate()).toString()}
-                      </Typography>
-                    </div>
-                  </div>
-                );
-              })}
-          </CardContent>
-        </Card>
+        </Fade> 
+        
+        <Fade in={checked}>
         <Card>
           <div>
             <CardContent>
@@ -111,6 +103,9 @@ function HomePage(props) {
             </CardContent>
           </div>
         </Card>
+        </Fade>
+
+        <Fade in={checked}>
         <Card
           style={{
             marginTop: "10px",
@@ -160,6 +155,9 @@ function HomePage(props) {
             </CardContent>
           </div>
         </Card>
+        </Fade>
+
+        <Fade in={checked}>
         <Card style={{ marginTop: "10px" }}>
           <div>
             <CardContent>
@@ -198,6 +196,9 @@ function HomePage(props) {
             </CardContent>
           </div>
         </Card>
+        </Fade>
+
+        <Fade in={checked}>
         <Card>
           <CardContent>
             {contact &&
@@ -260,8 +261,10 @@ function HomePage(props) {
                 );
               })}
           </CardContent>
-        </Card>
-      </Paper>
+          </Card>
+          </Fade>
+        </Paper>
+      </div>
     </div>
   );
 }

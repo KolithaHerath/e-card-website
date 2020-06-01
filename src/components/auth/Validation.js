@@ -6,7 +6,9 @@ const validPasswordRegex = RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
 
-const validNameRegex = RegExp(/[!@#$%^&*(),.?":{}|<>0-9]/i);
+const validNameRegex = RegExp("^[a-zA-Z]{3,10}$");
+
+const validCompDetailRegex = RegExp ("[a-zA-Z]+(\.|')?[a-zA-Z ]+(\.|')?")
 
 const validPhoneNoRegex = RegExp("^[0-9]{10}$");
 
@@ -51,7 +53,7 @@ export const validate = (id, value, _errors) => {
   let errors = _errors;
   // let errors = {};
   if (id === "fN") {
-    if (validNameRegex.test(value)) {
+    if (!validNameRegex.test(value)) {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
@@ -61,7 +63,7 @@ export const validate = (id, value, _errors) => {
   }
 
   if (id === "lN") {
-    if (validNameRegex.test(value)) {
+    if (!validNameRegex.test(value)) {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
@@ -105,7 +107,7 @@ export const validate = (id, value, _errors) => {
 
   // Position
   if (id === "pos") {
-    if (validNameRegex.test(value)) {
+    if (!validCompDetailRegex.test(value)) {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 1)) {
       errors[id] = "Field can not be blank";
@@ -116,7 +118,9 @@ export const validate = (id, value, _errors) => {
 
   // Company name
   if (id === "cmp") {
-    if (checkMinLength(value, 1)) {
+    if (!validCompDetailRegex.test(value)) {
+      errors[id] = "Can not contain special characters or numbers";
+    } else if (checkMinLength(value, 1)) {
       errors[id] = "Field can not be blank";
     } else {
       errors[id] = "";

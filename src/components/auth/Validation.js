@@ -6,13 +6,15 @@ const validPasswordRegex = RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
 
-const validNameRegex = RegExp("^[a-zA-Z]{3,10}$");
+const validNameRegex = RegExp("^[a-zA-Z]");
 
-const validCompDetailRegex = RegExp ("[a-zA-Z]+(\.|')?[a-zA-Z ]+(\.|')?")
+const validCompDetailRegex = RegExp ("^[a-zA-Z]+(\.|')?[a-zA-Z ]+(\.|')?")
 
 const validPhoneNoRegex = RegExp("^[0-9]{10}$");
 
 const checkMinLength = (value, length) => value.length < length;
+
+const checkMaxLength = (value, length) => value.length > length;
 
 // TODO: check email uniqueness
 // const isEmailUnique = (email) => {
@@ -57,6 +59,8 @@ export const validate = (id, value, _errors) => {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
+    }  else if (checkMaxLength(value, 15)) {
+      errors[id] = "This field canno't be more than 15 Characters long";
     } else {
       errors[id] = "";
     }
@@ -67,6 +71,8 @@ export const validate = (id, value, _errors) => {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
+    }  else if (checkMaxLength(value, 15)) {
+      errors[id] = "This field canno't be more than 15 Characters long";
     } else {
       errors[id] = "";
     }
@@ -118,10 +124,10 @@ export const validate = (id, value, _errors) => {
 
   // Company name
   if (id === "cmp") {
-    if (!validCompDetailRegex.test(value)) {
-      errors[id] = "Can not contain special characters or numbers";
-    } else if (checkMinLength(value, 1)) {
+    if (checkMinLength(value, 1)) {
       errors[id] = "Field can not be blank";
+    } else if (!validCompDetailRegex.test(value)) {
+      errors[id] = "Can not contain special characters or numbers";
     } else {
       errors[id] = "";
     }

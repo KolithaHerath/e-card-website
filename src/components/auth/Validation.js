@@ -100,7 +100,7 @@ export const validate = (id, value, _errors) => {
   //password for login
   if (id === "password") {
     if (checkMinLength(value, 1)) {
-      errors[id] = "Please enter the password";
+      errors[id] = "Please enter your password";
     } else {
       errors[id] = "";
     }

@@ -120,8 +120,8 @@ function HomePage(props) {
                         <Typography variant="h6" align="justify">
                           You can login or register in the mobile application
                           using a valid email address and a password.
-                          Alternatively you can do the same process through this
-                          website too.
+                          Alternatively the same process can be done through the
+                          website as well.
                         </Typography>
                       </CardContent>
                     </Card>
@@ -170,10 +170,10 @@ function HomePage(props) {
                           Getting a Card of a Person <hr />
                         </Typography>
                         <Typography variant="h6" align="justify">
-                          You can get the Card of a user by scanning their QR
-                          code shown in the mobile applocation only through the
-                          E-Card mobile application. And then you can selecet
-                          the Card from the list of contacts that you scanned.
+                          You can get the Card from a user by scanning their QR
+                          code displayed only through the E-Card mobile
+                          application. And then you can select the Card from the
+                          list of contacts that you scanned.
                         </Typography>
                       </CardContent>
                     </Card>

@@ -104,7 +104,7 @@ function ChangePWd(props) {
               onChange={handleChange}
               style={{ marginBottom: "20px" }}
             />
-            <Typography color="secondary">{doc.errors.email}</Typography>
+            <Typography color="secondary">{doc.errors.pwd}</Typography>
             <Typography variant="body1">Re-enter your new password</Typography>
             <TextField
               variant="outlined"
@@ -119,7 +119,7 @@ function ChangePWd(props) {
               onChange={handleChange}
               style={{ marginBottom: "20px" }}
             />
-            <br />
+            <Typography color="secondary">{doc.errors.repwd}</Typography>
             <Typography variant="body1">
               Type in your current password
             </Typography>

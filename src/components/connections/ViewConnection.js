@@ -308,7 +308,7 @@ function ViewConnection(props) {
                 >
                   <div>
                     {admin ? (
-                      <div>
+                      <div style={{ paddingTop: "15px" }}>
                         <TextField
                           error={doc.errors.fN === "" ? false : true}
                           className={classes.tField}
@@ -403,7 +403,7 @@ function ViewConnection(props) {
                   }}
                 >
                   {admin ? (
-                    <div>
+                    <div style={{ paddingTop: "15px" }}>
                       <TextField
                         error={doc.errors.cmp === "" ? false : true}
                         className={classes.tField}

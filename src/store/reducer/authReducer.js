@@ -19,12 +19,12 @@ const authReducer = (state = initState, action) => {
     case "REGISTER_SUCCESS":
       return {
         ...state,
-        authError: null,
+        regError: null,
       };
     case "REGISTER_ERROR":
       return {
         ...state,
-        authError: action.err.message,
+        regError: action.err.message,
       };
     default:
       return state;

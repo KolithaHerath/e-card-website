@@ -27,7 +27,7 @@ function Register(props) {
   const [state, setState] = useState(initState);
   const validateInputAndSetState = (id, value) => {
     const errors = validator.validate(id, value, state.errors);
-    setState({ errors, [id]: value });
+    setState({ ...state, errors, [id]: value });
   };
 
   const handleChange = (e) => {
@@ -107,14 +107,18 @@ function Register(props) {
             />
             <Typography color="secondary">{state.errors.repwd}</Typography>
             <br />
-            <br />
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Register
             </Button>
 
-            <div className="red-text center">
-              {authError ? <p> {authError} </p> : null}
+            <div>
+              <Typography variant="body1" color="secondary">
+                {authError ? <p> {authError} </p> : null}
+                {state.repwd === state.pwd ? null : (
+                  <p>Re-entered Password must be same as the Password!.</p>
+                )}
+              </Typography>
             </div>
           </CardContent>
         </Card>

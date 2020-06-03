@@ -1,6 +1,8 @@
 export const createProfile = (profile) => {
   return (dispatch, getState, { firebase }) => {
     //make async call to database
+    profile["pNo"] = parseInt(profile.pNo);
+    profile["wNo"] = parseInt(profile.wNo);
     const firestore = firebase.firestore();
     const id = getState().firebase.auth.uid.toString();
     firestore
@@ -22,6 +24,8 @@ export const createProfile = (profile) => {
 export const updateProfile = (profile) => {
   return (dispatch, getState, { firebase }) => {
     //make async call to database
+    profile["pNo"] = parseInt(profile.pNo);
+    profile["wNo"] = parseInt(profile.wNo);
     const firestore = firebase.firestore();
     const id = getState().firebase.auth.uid.toString();
     firestore

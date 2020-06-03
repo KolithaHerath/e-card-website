@@ -46,9 +46,12 @@ function Dashboard(props) {
   const notify_list = [];
   var num = 0;
   const { profiles, auth, current_user, notification } = props;
-  if (current_user.status) return <Redirect to="/dashboard" />;
 
+  //check if the user is logged in or not
   if (!auth.uid) return <Redirect to="/login" />;
+  //check if the user is an admin
+  if (current_user.status) return <Redirect to="/dashboard" />;
+  //check if the eamil is verified or not
   if (!auth.emailVerified) return <Redirect to="/verify" />;
 
   if (current_user.pNo === 0) return <Redirect to="/create" />;
@@ -80,152 +83,162 @@ function Dashboard(props) {
       }
       return null;
     });
-  return (
-    <div
-      className={classes.root}
-      style={{ marginTop: "15px", marginBottom: "20px" }}
-    >
-      <Paper elevation={3} style={{ width: "90%", margin: "auto" }}>
-        <div align="center">
-          <Typography variant="h3">
-            Dashboard
-            <hr />
-          </Typography>
-        </div>
-        <Grid container spcing={2}>
-          <Grid item xs={6}>
-            <div
-              className={classes.paper}
-              style={{ display: "flex", marginLeft: "60px" }}
-            >
-              <TextField
-                id="filled-basic"
-                label="Search"
-                variant="outlined"
-                onChange={searchBar}
-                style={{ width: "75%", marginRight: 0 }}
-              />
+  if (profiles !== undefined && profiles.isLoaded) {
+    return (
+      <div
+        className={classes.root}
+        style={{ marginTop: "15px", marginBottom: "20px" }}
+      >
+        <Paper elevation={3} style={{ width: "90%", margin: "auto" }}>
+          <div align="center">
+            <Typography variant="h3">
+              Dashboard
+              <hr />
+            </Typography>
+          </div>
+          <Grid container spcing={2}>
+            <Grid item xs={6}>
               <div
-                style={{
-                  float: "right",
-                  marginLeft: 0,
-                  paddingTop: "8px",
-                  paddingLeft: "2px",
-                }}
+                className={classes.paper}
+                style={{ display: "flex", marginLeft: "60px" }}
               >
-                <InputLabel id="demo-simple-select-label">Search By</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={item}
-                  onChange={handleChange}
-                  disableUnderline={true}
-                >
-                  <MenuItem
-                    id="fN"
-                    value={"First Name"}
-                    onClick={(e) => handleID(e)}
-                  >
-                    First Name
-                  </MenuItem>
-                  <MenuItem
-                    id="lN"
-                    value={"Last Name"}
-                    onClick={(e) => handleID(e)}
-                  >
-                    Last Name
-                  </MenuItem>
-                  <MenuItem
-                    id="cmp"
-                    value={"Company"}
-                    onClick={(e) => handleID(e)}
-                  >
-                    Company
-                  </MenuItem>
-                </Select>
-              </div>
-            </div>
-            <div
-              align="center"
-              style={{
-                margin: "auto",
-                width: "80%",
-              }}
-            >
-              <Typography variant="h5">
-                Your Card List <hr />
-              </Typography>
-            </div>
-            <div style={{ overflow: "auto", height: "380px" }}>
-              {conn_list.filter(searchingFor(term, id)).map((person) => (
-                <ul key={person.id}>
-                  <ConnectionList profiles={person} />
-                  {/* Display the list of connection the user has */}
-                </ul>
-              ))}
-            </div>
-          </Grid>
-          <Grid item xs={6}>
-            <Card
-              align="center"
-              style={{
-                margin: "auto",
-                width: "70%",
-                marginBottom: "28px",
-                background: "#3f51b5",
-                color: "white",
-                height: "100px",
-              }}
-            >
-              <CardContent>
-                <Typography variant="h4">
-                  {current_user.fN} {current_user.lN}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  style={{
-                    paddingTop: "10px",
-                  }}
-                >
-                  Number of Cards - {num}
-                </Typography>
-              </CardContent>
-            </Card>
-            <div
-              style={{
-                margin: "auto",
-                width: "70%",
-              }}
-            >
-              <Card style={{ borderRight: "3px solid #3f51b5" }}>
-                <div style={{ background: "#3f51b5", color: "white" }}>
-                  <Typography
-                    variant="h5"
-                    style={{ paddingLeft: "15px", paddingBottom: "5px" }}
-                    align="center"
-                  >
-                    Notifications
-                  </Typography>
-                  <hr />
-                </div>
+                <TextField
+                  id="filled-basic"
+                  label="Search"
+                  variant="outlined"
+                  onChange={searchBar}
+                  style={{ width: "75%", marginRight: 0 }}
+                />
                 <div
                   style={{
-                    margin: "auto",
-                    marginLeft: "15%",
-                    overflow: "auto",
-                    height: "120px",
-                    marginTop: "15px",
+                    float: "right",
+                    marginLeft: 0,
+                    paddingTop: "8px",
+                    paddingLeft: "2px",
                   }}
                 >
-                  <NotificationList notification={notify_list} />
+                  <InputLabel id="demo-simple-select-label">
+                    Search By
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={item}
+                    onChange={handleChange}
+                    disableUnderline={true}
+                  >
+                    <MenuItem
+                      id="fN"
+                      value={"First Name"}
+                      onClick={(e) => handleID(e)}
+                    >
+                      First Name
+                    </MenuItem>
+                    <MenuItem
+                      id="lN"
+                      value={"Last Name"}
+                      onClick={(e) => handleID(e)}
+                    >
+                      Last Name
+                    </MenuItem>
+                    <MenuItem
+                      id="cmp"
+                      value={"Company"}
+                      onClick={(e) => handleID(e)}
+                    >
+                      Company
+                    </MenuItem>
+                  </Select>
                 </div>
+              </div>
+              <div
+                align="center"
+                style={{
+                  margin: "auto",
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h5">
+                  Your Card List <hr />
+                </Typography>
+              </div>
+              <div style={{ overflow: "auto", height: "380px" }}>
+                {conn_list.filter(searchingFor(term, id)).map((person) => (
+                  <ul key={person.id}>
+                    <ConnectionList profiles={person} />
+                    {/* Display the list of connection the user has */}
+                  </ul>
+                ))}
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <Card
+                align="center"
+                style={{
+                  margin: "auto",
+                  width: "70%",
+                  marginBottom: "28px",
+                  background: "#3f51b5",
+                  color: "white",
+                  height: "100px",
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h4">
+                    {current_user.fN} {current_user.lN}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      paddingTop: "10px",
+                    }}
+                  >
+                    Number of Cards - {num}
+                  </Typography>
+                </CardContent>
               </Card>
-            </div>
+              <div
+                style={{
+                  margin: "auto",
+                  width: "70%",
+                }}
+              >
+                <Card style={{ borderRight: "3px solid #3f51b5" }}>
+                  <div style={{ background: "#3f51b5", color: "white" }}>
+                    <Typography
+                      variant="h5"
+                      style={{ paddingLeft: "15px", paddingBottom: "5px" }}
+                      align="center"
+                    >
+                      Notifications
+                    </Typography>
+                    <hr />
+                  </div>
+                  <div
+                    style={{
+                      margin: "auto",
+                      marginLeft: "15%",
+                      overflow: "auto",
+                      height: "120px",
+                      marginTop: "15px",
+                    }}
+                  >
+                    <NotificationList notification={notify_list} />
+                  </div>
+                </Card>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
-    </div>
-  );
+        </Paper>
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ width: "100%", height: "100%" }}>
+        <Card />
+      </div>
+    );
+  }
 }
 
 function searchingFor(term, type) {

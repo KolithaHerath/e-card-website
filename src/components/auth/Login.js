@@ -32,10 +32,12 @@ function Login(props) {
   const [open, setOpen] = useState(false);
   const [mail, setMail] = useState("");
 
+  //Open Popup Dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  //Close Popup Dialog
   const handleClose = () => {
     setOpen(false);
   };
@@ -43,15 +45,20 @@ function Login(props) {
   const handleForgotPwd = (e) => {
     props.resetPassword(mail);
   };
+
   const validateInputAndSetState = (id, value) => {
     const errors = validator.validate(id, value, state.errors);
-    setState({ errors, [id]: value });
+    setState({ ...state, errors, [id]: value });
   };
+
+  //set state for Login Form
   const handleChange = (e) => {
     const { id, value } = e.target;
     validateInputAndSetState(id, value);
     setState({ ...state, [e.target.id]: e.target.value });
   };
+
+  //set state for forgot password
   const handleMail = (e) => {
     setMail({ ...mail, [e.target.id]: e.target.value });
   };
@@ -72,6 +79,8 @@ function Login(props) {
 
     if (isFormValid) {
       props.login(state);
+    } else {
+      window.alert("Invalid Email or Password. Try again!");
     }
   };
   const { authError, auth } = props;
@@ -117,10 +126,11 @@ function Login(props) {
             <Button type="submit" fullWidth variant="contained" color="primary">
               Login
             </Button>
-            <div className="red-text center">
-              {authError ? <p>{authError}</p> : null}
+            <div>
+              <Typography variant="body1" color="secondary">
+                {authError ? <p>{authError}</p> : null}
+              </Typography>
             </div>
-            <br />
             <br />
 
             <Grid container>

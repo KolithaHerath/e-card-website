@@ -150,6 +150,9 @@ function ViewConnection(props) {
 
   const validateInputAndSetState = (id, value) => {
     const errors = validator.validate(id, value, doc.errors);
+    if (id === "pNo" || id === "wNo") {
+      setDoc({ ...doc, errors, [id]: parseInt(value) });
+    }
     setDoc({ ...doc, errors, [id]: value });
   };
 
@@ -230,8 +233,8 @@ function ViewConnection(props) {
     const isFormValid = validator.isErrorObjectEmpty(doc.errors);
     // submit if the form is valid
     handleClose();
-    handleClickUpdate();
     if (isFormValid) {
+      handleClickUpdate();
       setValid(true); // set the valid state to true since the form is valid
       delete doc.errors; // delete error state from the final object.
       var uid = props.match.params.id;
@@ -262,6 +265,8 @@ function ViewConnection(props) {
 
   // checks if the user has logged out or not
   if (!auth.uid) return <Redirect to="/" />;
+  // check if the email is verified or not
+  if (!auth.emailVerified) return <Redirect to="/verify" />;
   // Check if the logged in user is an admin or not
   if (admin_profile.isEmpty) {
     admin = true;

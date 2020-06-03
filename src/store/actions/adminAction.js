@@ -1,6 +1,8 @@
 export const updateProfile = (profile) => {
   return (dispatch, getState, { firebase }) => {
     //make asyn call to database
+    profile["pNo"] = parseInt(profile.pNo);
+    profile["wNo"] = parseInt(profile.wNo);
     const firestore = firebase.firestore();
     const id = getState().firebase.auth.uid.toString();
     firestore
@@ -23,10 +25,12 @@ export const updateConnection = (profile, uid) => {
   return (dispatch, getState, { firebase }) => {
     //make asyn call to database
     const firestore = firebase.firestore();
+    profile["pNo"] = parseInt(profile.pNo);
+    profile["wNo"] = parseInt(profile.wNo);
     firestore
       .collection("user")
       .doc(uid)
-      .update({
+      .set({
         // fields and values to be updated in the database
         ...profile,
       })
@@ -43,6 +47,14 @@ export const deleteUser = (uid) => {
   return (dispatch, getState, { firebase }) => {
     const firestore = firebase.firestore();
     const storage = firebase.storage().ref(uid);
+    const user = firebase.auth().currentUser;
+    firestore
+      .collection("user")
+      .doc(uid)
+      .delete()
+      .catch((e) => {
+        dispatch({ type: "DELETE_PROFILE_ERROR", e });
+      });
     storage
       .listAll()
       .then(function (result) {
@@ -50,16 +62,17 @@ export const deleteUser = (uid) => {
           file.delete();
         });
       })
-      .catch(function (error) {});
-    firestore
-      .collection("user")
-      .doc(uid)
+      .catch(function (error) {
+        dispatch({ type: "DELETE_PROFILE_ERROR", error });
+      });
+    user
       .delete()
-      .then(() => {
+      .then(function () {
         dispatch({ type: "DELETE_PROFILE" });
       })
-      .catch((e) => {
-        dispatch({ type: "DELETE_PROFILE_ERROR", e });
+      .catch(function (error) {
+        // An error happened.
+        dispatch({ type: "DELETE_PROFILE_ERROR", error });
       });
   };
 };

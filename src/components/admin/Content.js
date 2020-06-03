@@ -132,14 +132,18 @@ function Content(props) {
     }
   }
 
-  const { auth } = props;
+  const { auth, current_user } = props;
   if (!auth.uid) return <Redirect to="/login" />;
+  // check if the current user is an admin or not
+  if (!current_user.status) return <Redirect to="/" />;
 
   return (
     <div style={{ width: "750px", margin: "auto", marginTop: "10px" }}>
       <Card>
         <CardContent>
-          <Typography variant="h5">Announcement</Typography>
+          <Typography variant="h5">
+            Announcement <hr />
+          </Typography>
           <div>
             <TextField
               id="news"
@@ -163,7 +167,9 @@ function Content(props) {
       </Card>
       <Card style={{ marginTop: "10px", marginBottom: "10px" }}>
         <CardContent>
-          <Typography variant="h5">Contact Information</Typography>
+          <Typography variant="h5">
+            Update Contact Information <hr />
+          </Typography>
           <div>
             <Typography>1st Contact Information</Typography>
             <div style={{ margin: "10px" }}>
@@ -288,11 +294,13 @@ const mapStateToProps = (state) => {
     return {
       content: info, // get the  list of user from the firestore
       auth: state.firebase.auth,
+      current_user: state.firebase.profile,
     };
   } else {
     return {
       content: undefined,
       auth: state.firebase.auth,
+      current_user: state.firebase.profile,
     };
   }
 };

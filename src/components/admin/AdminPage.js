@@ -4,6 +4,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import GridView from "../admin/GridView";
 
@@ -30,36 +31,47 @@ function Admin(props) {
   const classes = useStyles();
 
   const { profiles, auth, current_user } = props;
-  if (!auth.uid) return <Redirect to="/login" />;
 
-  if (current_user.pNo === 0) return <Redirect to="/create" />;
-
-  if (!current_user.status) return <Redirect to="/" />;
-  const conn_list = [];
   localStorage.removeItem("profile");
   localStorage.removeItem("create");
-  profiles &&
-    profiles.map((user) => {
-      return conn_list.push(user);
-    });
-  return (
-    <div className={classes.root}>
-      <Grid container spcing={3}>
-        <Grid item xs={12}>
-          <div>
-            <p></p>
-          </div>
+  if (profiles !== undefined) {
+    if (!auth.uid) return <Redirect to="/login" />;
+    // check if the email is verified or not
+    if (!auth.emailVerified) return <Redirect to="/verify" />;
+
+    if (current_user.pNo === 0) return <Redirect to="/create" />;
+
+    if (!current_user.status) return <Redirect to="/" />;
+    const conn_list = [];
+    profiles &&
+      profiles.map((user) => {
+        return conn_list.push(user);
+      });
+    return (
+      <div className={classes.root}>
+        <Grid container spcing={3}>
+          <Grid item xs={12}>
+            <div>
+              <p></p>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <div style={{ width: "80%", margin: "auto" }}>
-            <GridView profiles={conn_list} />
-          </div>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <div style={{ width: "80%", margin: "auto" }}>
+              <GridView profiles={conn_list} />
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ width: "100%", height: "100%" }}>
+        <Card />
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {

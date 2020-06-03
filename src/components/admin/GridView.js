@@ -74,7 +74,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "fN",
     numeric: false,
     disablePadding: true,
     label: "Full Name",
@@ -112,6 +112,7 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              style={{ color: "white" }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (

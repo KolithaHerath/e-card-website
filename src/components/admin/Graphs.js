@@ -34,7 +34,7 @@ function Graphs(props) {
   let now = new Date();
   let day = now.getDay() === 0 ? 6 : now.getDay();
 
-  const { dataList, auth } = props;
+  const { dataList, auth, current_user } = props;
   const chart = () => {
     dataList &&
       dataList.map((data) => {
@@ -229,8 +229,13 @@ function Graphs(props) {
   }
   if (auth.isEmpty) return <Redirect to="/login" />;
 
+  // check if the email is verified or not
+  if (!auth.emailVerified) return <Redirect to="/verify" />;
+
+  // check if the current user is an admin or not
+  if (!current_user.status) return <Redirect to="/" />;
+
   var prevDay = day === 1 ? 6 : day - 2;
-  console.log(prevDay);
 
   return (
     <div
@@ -238,6 +243,7 @@ function Graphs(props) {
         position: "relative",
         margin: "auto",
         marginTop: "10px",
+        marginBottom: "20px",
       }}
     >
       <Grid container spcing={3}>
@@ -393,9 +399,14 @@ const mapStateToProps = (state) => {
     return {
       dataList: list,
       auth: state.firebase.auth,
+      current_user: state.firebase.profile,
     };
   } else {
-    return { dataList: undefined, auth: state.firebase.auth };
+    return {
+      dataList: undefined,
+      auth: state.firebase.auth,
+      current_user: state.firebase.profile,
+    };
   }
 };
 export default compose(

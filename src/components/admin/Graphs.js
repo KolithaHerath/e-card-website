@@ -7,7 +7,7 @@ import { Bar, Line } from "react-chartjs-2";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
-import { Typography } from "@material-ui/core";
+import { Typography, Grow, Paper } from "@material-ui/core";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import MinimizeIcon from "@material-ui/icons/Minimize";
@@ -227,8 +227,7 @@ function Graphs(props) {
       }
     }
   }
-  if (auth.isEmpty) return <Redirect to="/login" />;
-
+  if (!auth.uid) return <Redirect to="/login" />;
   // check if the email is verified or not
   if (!auth.emailVerified) return <Redirect to="/verify" />;
 
@@ -236,161 +235,214 @@ function Graphs(props) {
   if (!current_user.status) return <Redirect to="/" />;
 
   var prevDay = day === 1 ? 6 : day - 2;
+  const checked = true;
+  if (dataList !== undefined) {
+    return (
+      <div
+        style={{
+          position: "relative",
+          margin: "auto",
+          marginTop: "10px",
+          marginBottom: "20px",
+        }}
+      >
+        <Paper>
+          <Typography variant="h3" align="center">
+            Dashboard
+            <hr />
+          </Typography>
+          <Grid container spcing={3}>
+            <Grow
+              in={checked}
+              style={{ transformOrigin: "0 0 0" }}
+              {...(checked ? { timeout: 1000 } : {})}
+            >
+              <Grid item xs={6}>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Line
+                      type={"line"}
+                      data={chartAData}
+                      options={{
+                        responsive: true,
+                        title: {
+                          text: "Mobile Usage",
+                          display: true,
+                          fontSize: 25,
+                        },
+                        scales: {
+                          yAxes: [
+                            {
+                              ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                                beginAtZero: true,
+                              },
+                              gridLines: {
+                                display: true,
+                              },
+                            },
+                          ],
+                          xAxes: [
+                            {
+                              ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                              },
+                              gridLines: {
+                                display: true,
+                              },
+                            },
+                          ],
+                        },
+                        tooltips: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grow>
+            <Grow
+              in={checked}
+              style={{ transformOrigin: "0 0 0" }}
+              {...(checked ? { timeout: 1000 } : {})}
+            >
+              <Grid item xs={6}>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Bar
+                      type={"bar"}
+                      data={chartBData}
+                      options={{
+                        responsive: true,
+                        title: {
+                          text: "Number of Users",
+                          display: true,
+                          fontSize: 25,
+                        },
+                        scales: {
+                          yAxes: [
+                            {
+                              ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                                beginAtZero: true,
+                              },
+                              gridLines: {
+                                display: true,
+                              },
+                            },
+                          ],
+                          xAxes: [
+                            {
+                              ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                              },
+                              gridLines: {
+                                display: true,
+                              },
+                            },
+                          ],
+                        },
+                        tooltips: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grow>
+            <Grow
+              in={checked}
+              style={{ transformOrigin: "0 0 0" }}
+              {...(checked ? { timeout: 1000 } : {})}
+            >
+              <Grid item xs={4}>
+                <Card>
+                  <CardContent>
+                    <div>
+                      <Typography variant="h5" align="center">
+                        Mobile Application Usage <hr />
+                      </Typography>
+                    </div>
+                    <div
+                      style={{ margin: "auto", width: "45%" }}
+                      align="center"
+                    >
+                      <div align="left">
+                        <Typography variant="h6">
+                          Previous Week: {prevValue[day - 1]}
+                        </Typography>
 
-  return (
-    <div
-      style={{
-        position: "relative",
-        margin: "auto",
-        marginTop: "10px",
-        marginBottom: "20px",
-      }}
-    >
-      <Grid container spcing={3}>
-        <Grid item xs={6}>
-          <Card variant="outlined">
-            <CardContent>
-              <Line
-                type={"line"}
-                data={chartAData}
-                options={{
-                  responsive: true,
-                  title: { text: "Mobile Usage", display: true, fontSize: 25 },
-                  scales: {
-                    yAxes: [
-                      {
-                        ticks: {
-                          autoSkip: true,
-                          maxTicksLimit: 10,
-                          beginAtZero: true,
-                        },
-                        gridLines: {
-                          display: true,
-                        },
-                      },
-                    ],
-                    xAxes: [
-                      {
-                        ticks: {
-                          autoSkip: true,
-                          maxTicksLimit: 10,
-                        },
-                        gridLines: {
-                          display: true,
-                        },
-                      },
-                    ],
-                  },
-                  tooltips: {
-                    enabled: true,
-                  },
-                }}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card variant="outlined">
-            <CardContent>
-              <Bar
-                type={"bar"}
-                data={chartBData}
-                options={{
-                  responsive: true,
-                  title: {
-                    text: "Number of Users",
-                    display: true,
-                    fontSize: 25,
-                  },
-                  scales: {
-                    yAxes: [
-                      {
-                        ticks: {
-                          autoSkip: true,
-                          maxTicksLimit: 10,
-                          beginAtZero: true,
-                        },
-                        gridLines: {
-                          display: true,
-                        },
-                      },
-                    ],
-                    xAxes: [
-                      {
-                        ticks: {
-                          autoSkip: true,
-                          maxTicksLimit: 10,
-                        },
-                        gridLines: {
-                          display: true,
-                        },
-                      },
-                    ],
-                  },
-                  tooltips: {
-                    enabled: true,
-                  },
-                }}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card>
-            <CardContent>
-              <div>
-                <Typography variant="h5" align="center">
-                  Mobile Application Usage <hr />
-                </Typography>
-              </div>
-              <div style={{ margin: "auto", width: "45%" }} align="center">
-                <div align="left">
-                  <Typography variant="h6">
-                    Previous Week: {prevValue[day - 1]}
-                  </Typography>
-
-                  <Typography variant="h6">
-                    Yesterday : {usageValue[prevDay]}
-                  </Typography>
-                  <Typography variant="h6">
-                    Today : {usageValue[day - 1]}
-                  </Typography>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={4} align="justify">
-          <Card>
-            <CardContent>
-              <div>
-                <Typography variant="h5" align="center">
-                  Number of Connections <hr />
-                </Typography>
-              </div>
-              <div style={{ margin: "auto", width: "45%" }} align="center">
-                {checkStatusOfConnection()}
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card>
-            <CardContent>
-              <div>
-                <Typography variant="h5" align="center">
-                  Number of Users <hr />
-                </Typography>
-              </div>
-              <div style={{ margin: "auto", width: "40%" }} align="center">
-                {checkStatusOfUsers()}
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </div>
-  );
+                        <Typography variant="h6">
+                          Yesterday : {usageValue[prevDay]}
+                        </Typography>
+                        <Typography variant="h6">
+                          Today : {usageValue[day - 1]}
+                        </Typography>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grow>
+            <Grow
+              in={checked}
+              style={{ transformOrigin: "0 0 0" }}
+              {...(checked ? { timeout: 1000 } : {})}
+            >
+              <Grid item xs={4} align="justify">
+                <Card>
+                  <CardContent>
+                    <div>
+                      <Typography variant="h5" align="center">
+                        Number of Connections <hr />
+                      </Typography>
+                    </div>
+                    <div
+                      style={{ margin: "auto", width: "45%" }}
+                      align="center"
+                    >
+                      {checkStatusOfConnection()}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grow>
+            <Grow
+              in={checked}
+              style={{ transformOrigin: "0 0 0" }}
+              {...(checked ? { timeout: 1000 } : {})}
+            >
+              <Grid item xs={4}>
+                <Card>
+                  <CardContent>
+                    <div>
+                      <Typography variant="h5" align="center">
+                        Number of Users <hr />
+                      </Typography>
+                    </div>
+                    <div
+                      style={{ margin: "auto", width: "40%" }}
+                      align="center"
+                    >
+                      {checkStatusOfUsers()}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grow>
+          </Grid>
+        </Paper>
+      </div>
+    );
+  } else {
+    return null;
+  }
 }
 
 const mapStateToProps = (state) => {

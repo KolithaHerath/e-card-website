@@ -5,6 +5,7 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import Grow from "@material-ui/core/Grow";
 import { makeStyles } from "@material-ui/core/styles";
 import GridView from "../admin/GridView";
 
@@ -34,34 +35,35 @@ function Admin(props) {
 
   localStorage.removeItem("profile");
   localStorage.removeItem("create");
-  if (profiles !== undefined) {
-    if (!auth.uid) return <Redirect to="/login" />;
-    // check if the email is verified or not
-    if (!auth.emailVerified) return <Redirect to="/verify" />;
+  if (!auth.uid) return <Redirect to="/login" />;
+  // check if the email is verified or not
+  if (!auth.emailVerified) return <Redirect to="/verify" />;
 
-    if (current_user.pNo === 0) return <Redirect to="/create" />;
+  if (current_user.pNo === 0) return <Redirect to="/create" />;
 
-    if (!current_user.status) return <Redirect to="/" />;
-    const conn_list = [];
-    profiles &&
-      profiles.map((user) => {
-        return conn_list.push(user);
-      });
+  // if (!current_user.status) return <Redirect to="/" />;
+  const conn_list = [];
+  profiles &&
+    profiles.map((user) => {
+      return conn_list.push(user);
+    });
+
+  const checked = true;
+  if (profiles !== undefined && conn_list.length === profiles.length) {
     return (
       <div className={classes.root}>
-        <Grid container spcing={3}>
-          <Grid item xs={12}>
-            <div>
-              <p></p>
-            </div>
-          </Grid>
-        </Grid>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <div style={{ width: "80%", margin: "auto" }}>
-              <GridView profiles={conn_list} />
-            </div>
-          </Grid>
+          <Grow
+            in={checked}
+            style={{ transformOrigin: "0 0 0" }}
+            {...(checked ? { timeout: 1000 } : {})}
+          >
+            <Grid item xs={12}>
+              <div style={{ width: "80%", margin: "auto" }}>
+                <GridView profiles={conn_list} />
+              </div>
+            </Grid>
+          </Grow>
         </Grid>
       </div>
     );

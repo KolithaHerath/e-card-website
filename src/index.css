@@ -29,53 +29,7 @@ form h5 {
   margin: 20px 0;
 }
 
-input[type="text"]:not(.browser-default):focus:not([readonly]),
-input[type="email"]:not(.browser-default):focus:not([readonly]),
-input[type="password"]:not(.browser-default):focus:not([readonly]),
-textarea.materialize-textarea:focus:not([readonly]) {
-  border-color: #ec407a;
-  box-shadow: none;
-}
-
-.info-view {
-  display: inline;
-}
-
-.card-view {
-  object-fit: cover;
-  width: 300px;
-  height: 150px;
-  padding: 10px;
-}
-
-.card-small {
-  width: 350px;
-}
-
-.form-input input {
-  float: left;
-}
-
-.divElement {
-  float: left;
-  position: relative;
-  width: 100px;
-  height: 100px;
-  padding-bottom: 15%;
-}
-
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* make scrollbar transparent */
-}
-
-.notify {
-  padding-top: 7.5px;
-  padding-bottom: 7.5px;
-  white-space: nowrap;
-  width: 80%;
-  border-radius: 5px;
-}
-.notify:hover {
-  background-color: lightgray;
 }

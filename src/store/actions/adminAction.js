@@ -30,7 +30,7 @@ export const updateConnection = (profile, uid) => {
     firestore
       .collection("user")
       .doc(uid)
-      .set({
+      .update({
         // fields and values to be updated in the database
         ...profile,
       })

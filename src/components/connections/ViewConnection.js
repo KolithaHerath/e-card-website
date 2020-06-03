@@ -42,6 +42,7 @@ function ViewConnection(props) {
     pos: "",
     eM: "",
     pPic: "",
+    conn: [],
     front: "",
     back: "",
     status: false,
@@ -116,6 +117,7 @@ function ViewConnection(props) {
         wNo: profile.wNo || 0,
         pos: profile.pos || "",
         eM: profile.eM || "",
+        conn: profile.conn || [],
         pPic: profile.pPic || "",
         front: profile.front || "",
         back: profile.back || "",
@@ -504,25 +506,28 @@ function ViewConnection(props) {
                 <Paper elevation={3} style={{ width: "75%", padding: "10xp" }}>
                   <Typography variant="body1">Front View</Typography>
                   <img
-                    className="card-view"
                     src={
                       doc.front ||
                       "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
                     }
+                    height="200"
+                    width="320"
                     alt="Card Front View"
-                    style={{ display: "block" }}
+                    style={{ border: "2.5px solid #3f51b5" }}
                   />
                 </Paper>
                 <Paper elevation={3} style={{ width: "75%", padding: "10xp" }}>
                   <Typography variant="body1">Back View</Typography>
 
                   <img
-                    className="card-view"
                     src={
                       doc.back ||
                       "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
                     }
-                    alt="Card Back View"
+                    height="200"
+                    width="320"
+                    alt="Card Front View"
+                    style={{ border: "2.5px solid #3f51b5" }}
                   />
                 </Paper>
               </div>
@@ -530,7 +535,7 @@ function ViewConnection(props) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ float: "right", margin: "10px" }}>
+          <div align="center" style={{ margin: "10px" }}>
             {admin ? (
               <Button
                 variant="contained"

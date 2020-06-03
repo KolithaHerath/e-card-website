@@ -34,6 +34,7 @@ import {
   DialogContentText,
   DialogTitle,
   Slide,
+  Typography,
 } from "@material-ui/core";
 
 import { deleteUser } from "../../store/actions/adminAction";
@@ -114,7 +115,7 @@ function EnhancedTableHead(props) {
               onClick={createSortHandler(headCell.id)}
               style={{ color: "white" }}
             >
-              {headCell.label}
+              <Typography>{headCell.label}</Typography>
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -335,7 +336,7 @@ function GridView(props) {
       {snackbar ? handleSnackBar() : null}
       <Card className={classes.paper} variant="outlined">
         <div style={{ display: "inline", float: "left", margin: "10px" }}>
-          <h2>Registered Users</h2>
+          <Typography variant="h3">Registered Users</Typography>
         </div>
         <div style={{ display: "inline", float: "right", margin: "10px" }}>
           <TextField id="standard-basic" label="Search" onChange={searchBar} />
@@ -414,8 +415,9 @@ function GridView(props) {
                             color: "white",
                           }}
                           onClick={(e) => handleClickOpen(row)}
+                          size="small"
                         >
-                          <DeleteIcon />
+                          <DeleteIcon fontSize="small" />
                         </IconButton>
                         {open ? handleDialog(prof) : null}
                       </TableCell>
@@ -430,13 +432,21 @@ function GridView(props) {
                           key={row.id}
                           style={{ textDecoration: "none" }}
                         >
-                          {row.fN + " " + row.lN}
+                          <Typography>{row.fN + " " + row.lN}</Typography>
                         </Link>
                       </TableCell>
-                      <TableCell align="right">{row.cmp}</TableCell>
-                      <TableCell align="right">{row.pos}</TableCell>
-                      <TableCell align="right">{row.pNo}</TableCell>
-                      <TableCell align="right">{row.eM}</TableCell>
+                      <TableCell align="right">
+                        <Typography>{row.cmp}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{row.pos}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{row.pNo}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{row.eM}</Typography>
+                      </TableCell>
                     </TableRow>
                   );
                 })}

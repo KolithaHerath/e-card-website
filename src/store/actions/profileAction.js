@@ -8,7 +8,7 @@ export const createProfile = (profile) => {
     firestore
       .collection("user")
       .doc(id)
-      .set({
+      .update({
         // fields and values to be added in the database
         ...profile,
       })

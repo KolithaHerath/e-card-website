@@ -4,6 +4,8 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { uploadNews, updateContact } from "../../store/actions/adminAction";
 import {
@@ -12,6 +14,8 @@ import {
   CardContent,
   TextField,
   Button,
+  Grow,
+  Snackbar,
 } from "@material-ui/core";
 
 import * as validator from "../auth/Validation";
@@ -49,6 +53,20 @@ function Content(props) {
   const [valid, setValid] = useState(true);
 
   const [contact, setContact] = useState(initContact);
+
+  const [snackbar, setSnackbar] = useState(false);
+
+  const handleClick = () => {
+    setSnackbar(true);
+  };
+
+  const closeSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbar(false);
+  };
 
   function setData() {
     content &&
@@ -113,6 +131,7 @@ function Content(props) {
   }
 
   function handleAnnouncement(e) {
+    handleClick();
     props.uploadNews(news);
   }
 
@@ -124,6 +143,7 @@ function Content(props) {
     const isFormValid = validator.isErrorObjectEmpty(contact.errors);
 
     if (isFormValid) {
+      handleClick();
       setValid(true); // set the valid state to true since the form is valid
       delete contact.errors; // delete error state from the final object.
       props.updateContact(contact);
@@ -132,158 +152,209 @@ function Content(props) {
     }
   }
 
+  //Returns Snackbar when Updating current user profile
+  const handleSnackBar = () => {
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        open={snackbar}
+        autoHideDuration={4000}
+        onClose={closeSnackBar}
+        message="Successfully Updated"
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={closeSnackBar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
+    );
+  };
+
   const { auth, current_user } = props;
   if (!auth.uid) return <Redirect to="/login" />;
   // check if the current user is an admin or not
   if (!current_user.status) return <Redirect to="/" />;
-
+  const checked = true;
   return (
     <div style={{ width: "750px", margin: "auto", marginTop: "10px" }}>
-      <Card>
-        <CardContent>
-          <Typography variant="h5">
-            Announcement <hr />
-          </Typography>
-          <div>
-            <TextField
-              id="news"
-              label="Message"
-              multiline
-              rows={3}
-              variant="outlined"
-              onChange={handleChange}
-              style={{ width: "100%" }}
-            />
-          </div>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleAnnouncement}
-            style={{ float: "right", margin: "10px" }}
-          >
-            Publish
-          </Button>
-        </CardContent>
-      </Card>
-      <Card style={{ marginTop: "10px", marginBottom: "10px" }}>
-        <CardContent>
-          <Typography variant="h5">
-            Update Contact Information <hr />
-          </Typography>
-          <div>
-            <Typography>1st Contact Information</Typography>
-            <div style={{ margin: "10px" }}>
+      {snackbar ? handleSnackBar() : null}
+      <Grow
+        in={checked}
+        style={{ transformOrigin: "0 0 0" }}
+        {...(checked ? { timeout: 1000 } : {})}
+      >
+        <Card>
+          <CardContent>
+            <Typography variant="h5">
+              Announcement <hr />
+            </Typography>
+            <div>
               <TextField
-                error={contact.errors.fN1 === "" ? false : true}
-                className={classes.tField}
-                id="fN1"
-                label="First Name"
-                value={contact.fN1}
-                helperText={valid ? null : contact.errors.fN1}
-                onChange={handleContact}
+                id="news"
+                label="Announcement to make..."
+                multiline
+                rows={3}
                 variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
-              <TextField
-                error={contact.errors.lN1 === "" ? false : true}
-                className={classes.tField}
-                id="lN1"
-                label="Last Name"
-                value={contact.lN1}
-                helperText={valid ? null : contact.errors.lN1}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
+                onChange={handleChange}
+                style={{ width: "100%" }}
               />
             </div>
-            <div style={{ margin: "10px" }}>
-              <TextField
-                error={contact.errors.pNo1 === "" ? false : true}
-                className={classes.tField}
-                id="pNo1"
-                label="Phone Number"
-                value={contact.pNo1}
-                helperText={valid ? null : contact.errors.pNo1}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleAnnouncement}
+              style={{ float: "right", margin: "10px" }}
+            >
+              Update
+            </Button>
+          </CardContent>
+        </Card>
+      </Grow>
+      <Grow
+        in={checked}
+        style={{ transformOrigin: "0 0 0" }}
+        {...(checked ? { timeout: 1000 } : {})}
+      >
+        <Card style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <CardContent>
+            <Typography variant="h5">
+              Update Contact Information <hr />
+            </Typography>
+            <div>
+              <Typography
+                variant="h6"
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                For Mobile Application Contact Us
+              </Typography>
+              <div style={{ margin: "10px" }}>
+                <TextField
+                  error={contact.errors.fN1 === "" ? false : true}
+                  className={classes.tField}
+                  id="fN1"
+                  label="First Name"
+                  value={contact.fN1}
+                  helperText={valid ? null : contact.errors.fN1}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+                <TextField
+                  error={contact.errors.lN1 === "" ? false : true}
+                  className={classes.tField}
+                  id="lN1"
+                  label="Last Name"
+                  value={contact.lN1}
+                  helperText={valid ? null : contact.errors.lN1}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+              </div>
+              <div style={{ margin: "10px" }}>
+                <TextField
+                  error={contact.errors.pNo1 === "" ? false : true}
+                  className={classes.tField}
+                  id="pNo1"
+                  label="Phone Number"
+                  value={contact.pNo1}
+                  helperText={valid ? null : contact.errors.pNo1}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
 
-              <TextField
-                error={contact.errors.eM1 === "" ? false : true}
-                className={classes.tField}
-                id="eM1"
-                label="E-Mail Address"
-                value={contact.eM1}
-                helperText={valid ? null : contact.errors.eM1}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
+                <TextField
+                  error={contact.errors.eM1 === "" ? false : true}
+                  className={classes.tField}
+                  id="eM1"
+                  label="E-Mail Address"
+                  value={contact.eM1}
+                  helperText={valid ? null : contact.errors.eM1}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <Typography>2nd Contact Information</Typography>
-            <div style={{ margin: "10px" }}>
-              <TextField
-                error={contact.errors.fN2 === "" ? false : true}
-                className={classes.tField}
-                id="fN2"
-                label="First Name"
-                value={contact.fN2}
-                helperText={valid ? null : contact.errors.fN2}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
-              <TextField
-                error={contact.errors.lN2 === "" ? false : true}
-                className={classes.tField}
-                id="lN2"
-                label="Last Name"
-                value={contact.lN2}
-                helperText={valid ? null : contact.errors.lN2}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
-            </div>
-            <div style={{ margin: "10px" }}>
-              <TextField
-                error={contact.errors.pNo2 === "" ? false : true}
-                className={classes.tField}
-                id="pNo2"
-                label="Phone Number"
-                value={contact.pNo2}
-                helperText={valid ? null : contact.errors.pNo2}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
+            <div>
+              <Typography
+                variant="h6"
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                For Website Contact Us
+              </Typography>
+              <div style={{ margin: "10px" }}>
+                <TextField
+                  error={contact.errors.fN2 === "" ? false : true}
+                  className={classes.tField}
+                  id="fN2"
+                  label="First Name"
+                  value={contact.fN2}
+                  helperText={valid ? null : contact.errors.fN2}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+                <TextField
+                  error={contact.errors.lN2 === "" ? false : true}
+                  className={classes.tField}
+                  id="lN2"
+                  label="Last Name"
+                  value={contact.lN2}
+                  helperText={valid ? null : contact.errors.lN2}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+              </div>
+              <div style={{ margin: "10px" }}>
+                <TextField
+                  error={contact.errors.pNo2 === "" ? false : true}
+                  className={classes.tField}
+                  id="pNo2"
+                  label="Phone Number"
+                  value={contact.pNo2}
+                  helperText={valid ? null : contact.errors.pNo2}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
 
-              <TextField
-                error={contact.errors.eM2 === "" ? false : true}
-                className={classes.tField}
-                id="eM2"
-                label="E-Mail Address"
-                value={contact.eM2}
-                helperText={valid ? null : contact.errors.eM2}
-                onChange={handleContact}
-                variant="outlined"
-                style={{ marginRight: "10px" }}
-              />
+                <TextField
+                  error={contact.errors.eM2 === "" ? false : true}
+                  className={classes.tField}
+                  id="eM2"
+                  label="E-Mail Address"
+                  value={contact.eM2}
+                  helperText={valid ? null : contact.errors.eM2}
+                  onChange={handleContact}
+                  variant="outlined"
+                  style={{ marginRight: "10px" }}
+                />
+              </div>
             </div>
-          </div>
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ float: "right", margin: "10px" }}
-            onClick={handleContactUpdate}
-          >
-            Update
-          </Button>
-        </CardContent>
-      </Card>
+            <Button
+              color="primary"
+              variant="contained"
+              style={{ float: "right", margin: "10px" }}
+              onClick={handleContactUpdate}
+            >
+              Update
+            </Button>
+          </CardContent>
+        </Card>
+      </Grow>
     </div>
   );
 }

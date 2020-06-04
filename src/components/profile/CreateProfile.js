@@ -173,12 +173,14 @@ function CreateProfile(props) {
 
     handleClose();
     if (isFormValid) {
+      console.log(doc);
       handleClick();
       setValid(true); // set the valid state to true since the form is valid
       delete doc.errors; // delete error state from the final object.
       props.createProfile(doc);
       props.history.push("/");
     } else {
+      console.log(doc);
       setValid(false);
     }
   };
@@ -194,7 +196,7 @@ function CreateProfile(props) {
         open={imageUpload}
         autoHideDuration={4000}
         onClose={closeSnackBar}
-        message="Image is Uploaded"
+        message="Image is Uploading..."
         action={
           <React.Fragment>
             <IconButton
@@ -382,10 +384,11 @@ function CreateProfile(props) {
     );
   }
 
-  const { auth } = props;
+  const { auth, profile } = props;
   const classes = useStyles();
   if (!auth.uid) return <Redirect to="/login" />;
   if (!auth.emailVerified) return <Redirect to="/verify" />;
+  if (profile.isLoaded && !profile.isEmpty) return <Redirect to="/" />;
   const checked = true;
   return (
     <form
@@ -427,7 +430,7 @@ function CreateProfile(props) {
                         id="pPic"
                         onChange={onImageChange}
                         style={{ whiteSpace: "normal", wordWrap: "break-word" }}
-                        accept="image/*"
+                        accept="image/x-jpeg,image/x-jpg"
                         className={classes.input}
                         multiple
                         type="file"
@@ -486,14 +489,27 @@ function CreateProfile(props) {
                   <div style={{ clear: "left" }}>
                     {/* {Personal Phone Number} */}
                     <TextField
+                      className={classes.tField}
+                      variant="outlined"
+                      disabled
+                      value="+94"
+                      style={{ width: "12%" }}
+                      label="Country"
+                    />
+                    <TextField
                       error={doc.errors.pNo === "" ? false : true}
                       className={classes.tField}
                       id="pNo"
                       label="Personal Number"
                       value={doc.pNo}
-                      helperText={valid ? null : doc.errors.pNo}
+                      helperText={
+                        valid
+                          ? "No need to insert zero in the begining"
+                          : doc.errors.pNo
+                      }
                       onChange={handleChange}
                       variant="outlined"
+                      style={{ float: "left" }}
                     />
                   </div>
                   <div>
@@ -543,14 +559,27 @@ function CreateProfile(props) {
                   <div>
                     {/* {Work Number} */}
                     <TextField
+                      className={classes.tField}
+                      variant="outlined"
+                      disabled
+                      value="+94"
+                      style={{ width: "12%" }}
+                      label="Country"
+                    />
+                    <TextField
                       error={doc.errors.wNo === "" ? false : true}
                       className={classes.tField}
                       id="wNo"
                       label="Work Phone Number"
                       value={doc.wNo}
-                      helperText={valid ? null : doc.errors.wNo}
+                      helperText={
+                        valid
+                          ? "No need to insert zero in the begining"
+                          : doc.errors.wNo
+                      }
                       onChange={handleChange}
                       variant="outlined"
+                      style={{ float: "left" }}
                     />
                   </div>
                   <div>
@@ -619,7 +648,7 @@ function CreateProfile(props) {
                             whiteSpace: "normal",
                             wordWrap: "break-word",
                           }}
-                          accept="image/*"
+                          accept="image/x-jpeg,image/x-jpg"
                           className={classes.input}
                           multiple
                           type="file"
@@ -676,7 +705,7 @@ function CreateProfile(props) {
                             whiteSpace: "normal",
                             wordWrap: "break-word",
                           }}
-                          accept="image/*"
+                          accept="image/x-jpeg,image/x-jpg"
                           className={classes.input}
                           multiple
                           type="file"

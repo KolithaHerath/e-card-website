@@ -100,7 +100,10 @@ function ChangeEmail(props) {
               autoFocus
               onChange={handleChange}
             />
-            <Typography color="secondary">{doc.errors.email}</Typography>
+            <Typography color="secondary" variant="caption">
+              {doc.errors.email}
+            </Typography>
+            <br />
             <br />
             <Typography variant="body1">
               Type in your current password
@@ -117,8 +120,10 @@ function ChangeEmail(props) {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            <Typography color="secondary">{doc.errors.password}</Typography>
-
+            <Typography color="secondary" variant="caption">
+              {doc.errors.password}
+            </Typography>
+            <br />
             <br />
 
             <Button
@@ -156,8 +161,10 @@ function ChangeEmail(props) {
                 </Button>
               </DialogActions>
             </Dialog>
-            <div className="red-text center">
-              {authError ? <p>{authError}</p> : null}
+            <div>
+              <Typography variant="body2" color="secondary">
+                {authError ? <p>{authError}</p> : null}
+              </Typography>
             </div>
             <br />
           </CardContent>

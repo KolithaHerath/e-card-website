@@ -230,7 +230,9 @@ function Graphs(props) {
   if (!auth.uid) return <Redirect to="/login" />;
   // check if the email is verified or not
   if (!auth.emailVerified) return <Redirect to="/verify" />;
-
+  //if the user has not created a profile
+  if (current_user.isLoaded && current_user.isEmpty)
+    return <Redirect to="/create" />;
   // check if the current user is an admin or not
   if (!current_user.status) return <Redirect to="/" />;
 

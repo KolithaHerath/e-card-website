@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import firebase from "firebase";
 import "firebase/storage";
 import { updateProfile } from "../../store/actions/adminAction";
+import { deleteUser } from "../../store/actions/adminAction";
 import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -57,6 +58,16 @@ function UserProfile(props) {
   const [doc, setDoc] = useState(initState);
 
   const [imageUpload, setImageUpload] = useState(false);
+
+  const [openDel, setOpenDel] = useState(false);
+
+  const handleDelOpen = () => {
+    setOpenDel(true);
+  };
+
+  const handleDelClose = () => {
+    setOpenDel(false);
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -149,6 +160,12 @@ function UserProfile(props) {
     // setDoc({ ...doc, [e.target.id]: e.target.value });
   };
 
+  //Delete the current user profile
+  const handleDel = (e) => {
+    handleDelClose();
+    props.deleteUser(props.auth.uid);
+    props.history.push("/login");
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     handleClose();
@@ -180,9 +197,9 @@ function UserProfile(props) {
           horizontal: "left",
         }}
         open={imageUpload}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
         onClose={closeSnackBar}
-        message="Image is Uploaded"
+        message="Image Uploading Wait..."
         action={
           <React.Fragment>
             <IconButton
@@ -326,6 +343,37 @@ function UserProfile(props) {
     }
   };
 
+  function handleDelDialog() {
+    return (
+      <Dialog
+        open={openDel}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleDelClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title" color="black">
+          {"Deleting Your Profile"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Are you sure that you want to Delete your current profile? After
+            clicking yes you will be redirected to Create Profile.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelClose} color="primary">
+            No
+          </Button>
+          <Button onClick={handleDel} color="primary">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   function handleDialog() {
     return (
       <Dialog
@@ -337,7 +385,7 @@ function UserProfile(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title" color="black">
-          {"Updating the profile"}
+          {"Updating Your Profile"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
@@ -393,7 +441,7 @@ function UserProfile(props) {
                             whiteSpace: "normal",
                             wordWrap: "break-word",
                           }}
-                          accept="image/*"
+                          accept="image/x-jpeg,image/x-jpg"
                           className={classes.input}
                           multiple
                           type="file"
@@ -449,17 +497,30 @@ function UserProfile(props) {
                     </div>
                     <div style={{ clear: "left" }}>
                       <TextField
+                        className={classes.tField}
+                        variant="outlined"
+                        disabled
+                        value="+94"
+                        style={{ width: "12%" }}
+                        label="Country"
+                      />
+                      <TextField
                         error={doc.errors.pNo === "" ? false : true}
                         className={classes.tField}
                         id="pNo"
                         label="Personal Number"
                         value={doc.pNo}
-                        helperText={valid ? null : doc.errors.pNo}
+                        helperText={
+                          valid
+                            ? "No need to insert zero in the begining"
+                            : doc.errors.pNo
+                        }
                         onChange={handleChange}
                         variant="outlined"
+                        style={{ float: "left" }}
                       />
                     </div>
-                    <div>
+                    <div style={{ clear: "left" }}>
                       <TextField
                         error={doc.errors.eM === "" ? false : true}
                         className={classes.tField}
@@ -503,14 +564,27 @@ function UserProfile(props) {
 
                     <div>
                       <TextField
+                        className={classes.tField}
+                        variant="outlined"
+                        disabled
+                        value="+94"
+                        style={{ width: "12%" }}
+                        label="Country"
+                      />
+                      <TextField
                         error={doc.errors.wNo === "" ? false : true}
                         className={classes.tField}
                         id="wNo"
                         label="Work Phone Number"
                         value={doc.wNo}
-                        helperText={valid ? null : doc.errors.wNo}
+                        helperText={
+                          valid
+                            ? "No need to insert zero in the begining"
+                            : doc.errors.wNo
+                        }
                         onChange={handleChange}
                         variant="outlined"
+                        style={{ float: "left" }}
                       />
                     </div>
                     <div>
@@ -577,7 +651,7 @@ function UserProfile(props) {
                               whiteSpace: "normal",
                               wordWrap: "break-word",
                             }}
-                            accept="image/*"
+                            accept="image/x-jpeg,image/x-jpg"
                             className={classes.input}
                             multiple
                             type="file"
@@ -633,7 +707,7 @@ function UserProfile(props) {
                               whiteSpace: "normal",
                               wordWrap: "break-word",
                             }}
-                            accept="image/*"
+                            accept="image/x-jpeg,image/x-jpg"
                             className={classes.input}
                             multiple
                             type="file"
@@ -688,7 +762,16 @@ function UserProfile(props) {
               >
                 Update
               </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: 10 }}
+                onClick={(e) => handleDelOpen()}
+              >
+                Delete
+              </Button>
               {open ? handleDialog() : null}
+              {openDel ? handleDelDialog() : null}
             </div>
             <div style={{ clear: "right" }}></div>
           </Grid>
@@ -697,10 +780,10 @@ function UserProfile(props) {
     );
   }
 
-  const { auth } = props;
+  const { auth, profile } = props;
   const classes = useStyles();
   if (!auth.uid) return <Redirect to="/login" />;
-
+  if (profile.isLoaded && profile.isEmpty) return <Redirect to="/create" />;
   const profileView = doc === null ? <Redirect to="/" /> : renderProfile(true);
   if (profileView) {
     return <div>{profileView}</div>;
@@ -733,6 +816,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateProfile: (profile) => dispatch(updateProfile(profile)),
+    deleteUser: (uid) => dispatch(deleteUser(uid)),
   };
 };
 

@@ -17,6 +17,7 @@ import {
 function HomePage(props) {
   const { contact } = props;
   const checked = true;
+
   if (contact !== undefined) {
     return (
       <div>
@@ -267,7 +268,7 @@ function HomePage(props) {
                                       Name: {items.fN1} {items.lN1}
                                     </Typography>
                                     <Typography>
-                                      Contact Number: {items.pNo1}
+                                      Contact Number: +94{parseInt(items.pNo1)}
                                     </Typography>
                                     <Typography>
                                       Email Address: {items.eM1}
@@ -284,7 +285,7 @@ function HomePage(props) {
                                       Name: {items.fN2} {items.lN2}
                                     </Typography>
                                     <Typography>
-                                      Contact Number: {items.pNo2}
+                                      Contact Number: +94{parseInt(items.pNo2)}
                                     </Typography>
                                     <Typography>
                                       Email Address: {items.eM2}
@@ -307,7 +308,7 @@ function HomePage(props) {
   } else {
     return (
       <div>
-        <Card style={{ width: "100%", height: "100%" }} />
+        <Card style={{ width: "100%", height: "100%" }}></Card>
       </div>
     );
   }

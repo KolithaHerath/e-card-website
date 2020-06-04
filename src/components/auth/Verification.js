@@ -16,8 +16,14 @@ function Register(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     var verifyUser = firebase.auth().currentUser;
+    var actionCodeSettings = {
+      // After password reset, the user will be give the ability to go back
+      // to this page.
+      url: "https://visiting-card-5b274.web.app/create",
+      handleCodeInApp: false,
+    };
     verifyUser
-      .sendEmailVerification()
+      .sendEmailVerification(actionCodeSettings)
       .then(function () {
         //Email User
         window.alert("Verification Sent");
@@ -28,7 +34,7 @@ function Register(props) {
       });
   };
 
-  const { auth, authError } = props;
+  const { auth } = props;
   if (!auth.uid) return <Redirect to="/login" />;
   var status = auth.emailVerified.toString();
   var user = auth.email.toString();
@@ -66,10 +72,6 @@ function Register(props) {
             >
               Send Verification
             </Button>
-
-            <div className="red-text center">
-              {authError ? <p> {authError} </p> : null}
-            </div>
           </CardContent>
         </Card>
       </form>
@@ -80,7 +82,6 @@ function Register(props) {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    authError: state.auth.authError,
   };
 };
 

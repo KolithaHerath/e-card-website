@@ -106,8 +106,12 @@ function Login(props) {
               autoFocus
               onChange={handleChange}
             />
-            <Typography color="secondary">{state.errors.email}</Typography>
+            <Typography color="secondary" variant="caption">
+              {state.errors.email}
+            </Typography>
             <br />
+            <br />
+
             <TextField
               variant="outlined"
               margin="dense"
@@ -120,14 +124,17 @@ function Login(props) {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            <Typography color="secondary">{state.errors.password}</Typography>
+            <Typography color="secondary" variant="caption">
+              {state.errors.password}
+            </Typography>
+            <br />
             <br />
 
             <Button type="submit" fullWidth variant="contained" color="primary">
               Login
             </Button>
             <div>
-              <Typography variant="body1" color="secondary">
+              <Typography variant="body2" color="secondary">
                 {authError ? <p>{authError}</p> : null}
               </Typography>
             </div>

@@ -8,21 +8,11 @@ const validPasswordRegex = RegExp(
 
 const validNameRegex = RegExp(/[!@#$%^&*(),.?":{}|<>0-9]/i);
 
-const validPhoneNoRegex = RegExp("^[0-9]{10}$");
+const validPhoneNoRegex = RegExp("^[0-9]{9}$");
 
 const checkMinLength = (value, length) => value.length < length;
 
-// TODO: check email uniqueness
-// const isEmailUnique = (email) => {
-//   // check uniqueness
-//   return false;
-// };
-
-// const countErrors = (errors) => {
-//   let count = 0;
-//   Object.values(errors).forEach((val) => val.length > 0 && (count = count + 1));
-//   return count;
-// };
+const checkMaxLength = (value, length) => value.length > length;
 
 export const fromValidations = () => {};
 
@@ -52,6 +42,8 @@ export const validate = (id, value, _errors) => {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
+    } else if (checkMaxLength(value, 15)) {
+      errors[id] = "Maximum number of characters allowed is 15";
     } else {
       errors[id] = "";
     }
@@ -62,6 +54,8 @@ export const validate = (id, value, _errors) => {
       errors[id] = "Can not contain special characters or numbers";
     } else if (checkMinLength(value, 3)) {
       errors[id] = "At least 3 letters needed";
+    } else if (checkMaxLength(value, 15)) {
+      errors[id] = "Maximum number of characters allowed is 15";
     } else {
       errors[id] = "";
     }
@@ -88,7 +82,9 @@ export const validate = (id, value, _errors) => {
     if (checkMinLength(value, 1)) {
       errors[id] = "Please enter your password";
     } else if (checkMinLength(value, 8)) {
-      errors[id] = "Password should be 8 characters long";
+      errors[id] = "Password should be 8-30 characters long";
+    } else if (checkMaxLength(value, 30)) {
+      errors[id] = "Maximum number of characters allowed is 30";
     } else if (!validPasswordRegex.test(value)) {
       errors[id] =
         "Password should contain at least 1 uppercase letter, 1 lowercase letter, 1 numeric character and 1 special character";
@@ -101,6 +97,8 @@ export const validate = (id, value, _errors) => {
   if (id === "password") {
     if (checkMinLength(value, 1)) {
       errors[id] = "Please enter your password";
+    } else if (checkMaxLength(value, 30)) {
+      errors[id] = "Maximum number of characters allowed is 30";
     } else {
       errors[id] = "";
     }
@@ -108,10 +106,10 @@ export const validate = (id, value, _errors) => {
 
   // Position
   if (id === "pos") {
-    if (validNameRegex.test(value)) {
-      errors[id] = "Can not contain special characters or numbers";
-    } else if (checkMinLength(value, 1)) {
+    if (checkMinLength(value, 3)) {
       errors[id] = "Field can not be blank";
+    } else if (checkMaxLength(value, 30)) {
+      errors[id] = "Maximum number of characters allowed is 30";
     } else {
       errors[id] = "";
     }
@@ -121,6 +119,8 @@ export const validate = (id, value, _errors) => {
   if (id === "cmp") {
     if (checkMinLength(value, 1)) {
       errors[id] = "Field can not be blank";
+    } else if (checkMaxLength(value, 30)) {
+      errors[id] = "Maximum number of characters allowed is 30";
     } else {
       errors[id] = "";
     }
@@ -130,6 +130,8 @@ export const validate = (id, value, _errors) => {
   if (id === "adr") {
     if (checkMinLength(value, 1)) {
       errors[id] = "Field can not be blank";
+    } else if (checkMaxLength(value, 30)) {
+      errors[id] = "Maximum number of characters allowed is 30";
     } else {
       errors[id] = "";
     }
@@ -140,7 +142,7 @@ export const validate = (id, value, _errors) => {
     if (Number(value) === 0) {
       errors[id] = "Field can not be blank";
     } else if (!validPhoneNoRegex.test(value)) {
-      errors[id] = "Field requires 10 digits";
+      errors[id] = "Field requires 9 digits";
     } else {
       errors[id] = "";
     }
@@ -151,7 +153,7 @@ export const validate = (id, value, _errors) => {
     if (Number(value) === 0) {
       errors[id] = "Field can not be blank";
     } else if (!validPhoneNoRegex.test(value)) {
-      errors[id] = "Field requires 10 digits";
+      errors[id] = "Field requires 9 digits";
     } else {
       errors[id] = "";
     }

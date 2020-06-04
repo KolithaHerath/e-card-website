@@ -352,14 +352,27 @@ function ViewConnection(props) {
                     {admin ? (
                       <div>
                         <TextField
+                          className={classes.tField}
+                          variant="outlined"
+                          disabled
+                          value="+94"
+                          style={{ width: "12%" }}
+                          label="Country"
+                        />
+                        <TextField
                           error={doc.errors.pNo === "" ? false : true}
                           className={classes.tField}
                           id="pNo"
-                          label="Personal Number"
+                          label="Work Phone Number"
                           value={doc.pNo}
-                          helperText={valid ? null : doc.errors.pNo}
+                          helperText={
+                            valid
+                              ? "No need to insert zero in the begining"
+                              : doc.errors.pNo
+                          }
                           onChange={handleChange}
                           variant="outlined"
+                          style={{ float: "left" }}
                         />
                       </div>
                     ) : (
@@ -367,7 +380,7 @@ function ViewConnection(props) {
                         <label style={{ fontWeight: "bold" }}>
                           Personal Number -{" "}
                         </label>
-                        {doc.pNo}
+                        {94 + doc.pNo}
                       </Typography>
                     )}
                   </div>
@@ -440,14 +453,27 @@ function ViewConnection(props) {
                   {admin ? (
                     <div>
                       <TextField
+                        className={classes.tField}
+                        variant="outlined"
+                        disabled
+                        value="+94"
+                        style={{ width: "12%" }}
+                        label="Country"
+                      />
+                      <TextField
                         error={doc.errors.wNo === "" ? false : true}
                         className={classes.tField}
                         id="wNo"
                         label="Work Phone Number"
                         value={doc.wNo}
-                        helperText={valid ? null : doc.errors.wNo}
+                        helperText={
+                          valid
+                            ? "No need to insert zero in the begining"
+                            : doc.errors.wNo
+                        }
                         onChange={handleChange}
                         variant="outlined"
+                        style={{ float: "left" }}
                       />
                     </div>
                   ) : (
@@ -459,7 +485,7 @@ function ViewConnection(props) {
                       <label style={{ fontWeight: "bold" }}>
                         Work Number -{" "}
                       </label>
-                      {doc.wNo}
+                      {94 + doc.wNo}
                     </Typography>
                   )}
                   <div>

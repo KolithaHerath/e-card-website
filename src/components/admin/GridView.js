@@ -442,7 +442,7 @@ function GridView(props) {
                         <Typography>{row.pos}</Typography>
                       </TableCell>
                       <TableCell align="right">
-                        <Typography>{row.pNo}</Typography>
+                        <Typography>94{row.pNo}</Typography>
                       </TableCell>
                       <TableCell align="right">
                         <Typography>{row.eM}</Typography>

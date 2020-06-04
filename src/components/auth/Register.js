@@ -77,8 +77,12 @@ function Register(props) {
               autoComplete="email"
               onChange={handleChange}
             />
-            <Typography color="secondary">{state.errors.eM}</Typography>
+            <Typography color="secondary" variant="caption">
+              {state.errors.eM}
+            </Typography>
             <br />
+            <br />
+
             <TextField
               variant="outlined"
               margin="dense"
@@ -91,8 +95,12 @@ function Register(props) {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            <Typography color="secondary">{state.errors.pwd}</Typography>
+            <Typography color="secondary" variant="caption">
+              {state.errors.pwd}
+            </Typography>
             <br />
+            <br />
+
             <TextField
               variant="outlined"
               margin="dense"
@@ -105,7 +113,10 @@ function Register(props) {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            <Typography color="secondary">{state.errors.repwd}</Typography>
+            <Typography color="secondary" variant="caption">
+              {state.errors.repwd}
+            </Typography>
+            <br />
             <br />
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
@@ -113,7 +124,7 @@ function Register(props) {
             </Button>
 
             <div>
-              <Typography variant="body1" color="secondary">
+              <Typography variant="body2" color="secondary">
                 {authError ? <p> {authError} </p> : null}
                 {state.repwd === state.pwd ? null : (
                   <p>Re-entered Password must be same as the Password!.</p>

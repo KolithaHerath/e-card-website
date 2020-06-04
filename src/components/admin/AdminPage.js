@@ -35,13 +35,15 @@ function Admin(props) {
 
   localStorage.removeItem("profile");
   localStorage.removeItem("create");
+
   if (!auth.uid) return <Redirect to="/login" />;
   // check if the email is verified or not
   if (!auth.emailVerified) return <Redirect to="/verify" />;
 
-  if (current_user.pNo === 0) return <Redirect to="/create" />;
+  if (current_user.isLoaded && current_user.isEmpty)
+    return <Redirect to="/create" />;
 
-  // if (!current_user.status) return <Redirect to="/" />;
+  if (current_user.isLoaded && !current_user.status) return <Redirect to="/" />;
   const conn_list = [];
   profiles &&
     profiles.map((user) => {

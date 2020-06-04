@@ -104,7 +104,9 @@ function ChangePWd(props) {
               onChange={handleChange}
               style={{ marginBottom: "20px" }}
             />
-            <Typography color="secondary">{doc.errors.pwd}</Typography>
+            <Typography color="secondary" variant="caption">
+              {doc.errors.pwd}
+            </Typography>
             <Typography variant="body1">Re-enter your new password</Typography>
             <TextField
               variant="outlined"
@@ -119,7 +121,12 @@ function ChangePWd(props) {
               onChange={handleChange}
               style={{ marginBottom: "20px" }}
             />
-            <Typography color="secondary">{doc.errors.repwd}</Typography>
+            <Typography color="secondary" variant="caption">
+              {doc.errors.repwd}
+            </Typography>
+            <br />
+            <br />
+
             <Typography variant="body1">
               Type in your current password
             </Typography>
@@ -136,8 +143,10 @@ function ChangePWd(props) {
               onChange={handleChange}
               style={{ marginBottom: "20px" }}
             />
-            <Typography color="secondary">{doc.errors.password}</Typography>
-
+            <Typography color="secondary" variant="caption">
+              {doc.errors.password}
+            </Typography>
+            <br />
             <br />
 
             <Button
@@ -176,8 +185,10 @@ function ChangePWd(props) {
                 </Button>
               </DialogActions>
             </Dialog>
-            <div className="red-text center">
-              {authError ? <p>{authError}</p> : null}
+            <div>
+              <Typography variant="body2" color="secondary">
+                {authError ? <p>{authError}</p> : null}
+              </Typography>
             </div>
             <br />
           </CardContent>

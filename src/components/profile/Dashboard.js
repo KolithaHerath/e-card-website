@@ -47,18 +47,19 @@ function Dashboard(props) {
   const notify_list = [];
   var num = 0;
   const { profiles, auth, current_user, notification } = props;
-  //check if the user is an admin
-  if (current_user.status) return <Redirect to="/dashboard" />;
 
   //check if the user is logged in or not
   if (!auth.uid) return <Redirect to="/login" />;
 
   //check if the eamil is verified or not
   if (!auth.emailVerified) return <Redirect to="/verify" />;
+  //check if the user is an admin
+  if (current_user.status) return <Redirect to="/dashboard" />;
+  //check if the user has created a profile or not
+  if (current_user.isLoaded && current_user.isEmpty)
+    return <Redirect to="/create" />;
 
-  if (current_user.pNo === 0) return <Redirect to="/create" />;
-
-  if (current_user !== undefined && current_user.isLoaded) {
+  if (current_user.isLoaded && !current_user.isEmpty) {
     num = current_user.conn.length;
   }
   profiles &&

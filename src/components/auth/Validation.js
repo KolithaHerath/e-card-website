@@ -6,7 +6,7 @@ const validPasswordRegex = RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
 );
 
-const validNameRegex = RegExp(/[!@#$%^&*(),.?":{}|<>0-9]/i);
+const validNameRegex = RegExp(/[ !@#$%^&*(),.?":{}|<>0-9]/i);
 
 const validPhoneNoRegex = RegExp("^[0-9]{9}$");
 
